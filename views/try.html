@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Show Different Content</title>
+  <style>
+    .content {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <button id="showButton1">Show Content 1</button>
+  <button id="showButton2">Show Content 2</button>
+  <button id="showButton3">Show Content 3</button>
+
+  <div id="content1" class="content">
+    <h3>Usernames List:</h3>
+    <ul id="userList"></ul>
+  </div>
+
+  <div id="content2" class="content">
+    <p>This is Content 2.</p>
+  </div>
+
+  <div id="content3" class="content">
+    <p>This is Content 3.</p>
+  </div>
+
+  <script>
+    // Sample data
+    const userData = [ { username: 'rishi' }, { username: 'sachin' } ];
+
+    // Get references to the buttons and content divs
+    const showButton1 = document.getElementById('showButton1');
+    const showButton2 = document.getElementById('showButton2');
+    const showButton3 = document.getElementById('showButton3');
+    const content1 = document.getElementById('content1');
+    const content2 = document.getElementById('content2');
+    const content3 = document.getElementById('content3');
+
+    // Add click event listeners to the buttons
+    showButton1.addEventListener('click', function() {
+      // Show content 1 and hide content 2 and 3
+      content1.style.display = 'block';
+      content2.style.display = 'none';
+      content3.style.display = 'none';
+
+      // Display usernames in a list within content1
+      const userListElement = document.getElementById('userList');
+      userListElement.innerHTML = ''; // Clear existing content
+
+      userData.forEach(user => {
+        const listItem = document.createElement('li');
+        listItem.textContent = user.username;
+        userListElement.appendChild(listItem);
+      });
+    });
+
+    showButton2.addEventListener('click', function() {
+      // Show content 2 and hide content 1 and 3
+      content2.style.display = 'block';
+      content1.style.display = 'none';
+      content3.style.display = 'none';
+    });
+
+    showButton3.addEventListener('click', function() {
+      // Show content 3 and hide content 1 and 2
+      content3.style.display = 'block';
+      content1.style.display = 'none';
+      content2.style.display = 'none';
+    });
+  </script>
+
+</body>
+</html>

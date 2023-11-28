@@ -1,0 +1,145 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/products.css">
+</head>
+<body>
+    <p>Products</p>
+    <div class="buttons-container">
+      <button class="filter-button" id="button1">Top Seller by Count</button>
+      <button class="filter-button" id="button2">Top Seller by No. of Products</button>
+  </div>
+    <div class="all-products1" id="all-products1"></div>
+    <div class="all-products2" id="all-products2"></div>
+</body>
+<script>
+    
+    document.addEventListener('DOMContentLoaded', function () {
+    // Get the product container div
+    const productContainer1 = document.getElementById('all-products1');
+    const productContainer2 = document.getElementById('all-products2');
+    const button1 = document.getElementById('button1');
+    const button2 = document.getElementById('button2');
+    const content1 = document.getElementById('all-products1');
+    const content2 = document.getElementById('all-products2');
+    content1.style.display = 'block';
+    button1.addEventListener('click', () => {
+        content1.style.display = 'block';
+        content2.style.display = 'none';
+        productContainer1.innerHTML="";
+        fetch('/adminstatus', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message: 1 }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                data.forEach(product => {
+                    console.log(product);
+                    // Create a new div for the product
+                    const productDiv = document.createElement('div');
+                    productDiv.classList.add('product');
+
+                    // Populate the product div with information
+                    productDiv.innerHTML = `
+                        <div class="productid">${product.productid}</div>
+                        <div class="productname">${product.productname}</div>
+                        <div class="productimage"><img src="${product.productpic}" alt="${product.productname}"></div>
+                        <div class="productprice">Price: $${product.productprice}</div>
+                        <div class="productcount">Available: ${product.productcount}</div>
+                        <div><button class="view-details-button">Order</button></div>
+                    `;
+ 
+                    // Append the product div to the product container
+                    productContainer1.appendChild(productDiv);
+                });
+
+            })
+            .catch(error => console.error('Error sending data:', error));
+    });
+
+
+    button2.addEventListener('click', () => {
+        content1.style.display = 'none';
+        content2.style.display = 'block';
+        productContainer2.innerHTML="";
+        fetch('/adminstatus', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message: 2 }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                data.forEach(product => {
+                    // Create a new div for the product
+                    console.log(product);
+                    const productDiv = document.createElement('div');
+                    productDiv.classList.add('product');
+
+                    // Populate the product div with information
+                    productDiv.innerHTML = `
+                        <div class="productid">${product.productid}</div>
+                        <div class="productname">${product.productname}</div>
+                        <div class="productimage"><img src="${product.productpic}" alt="${product.productname}"></div>
+                        <div class="productprice">Price: $${product.productprice}</div>
+                        <div class="productcount">Available: ${product.productcount}</div>
+                        <div><button class="view-details-button">Order</button></div>
+                    `;
+
+                    // Append the product div to the product container
+                    productContainer2.appendChild(productDiv);
+                });
+
+            })
+            .catch(error => console.error('Error sending data:', error));
+    });
+    document.addEventListener('click', function (event) {
+            if (event.target.classList.contains('view-details-button')) {
+                // Traverse the DOM to find the parent div
+                const parentDiv = event.target.closest('.product');
+
+                // Extract details from the parent div
+                const productId = parentDiv.querySelector('.productid').textContent;
+                const productName = parentDiv.querySelector('.productname').textContent;
+                const productPrice = parentDiv.querySelector('.productprice').textContent;
+                const productCount = parentDiv.querySelector('.productcount').textContent;
+                const productPic = parentDiv.querySelector('.productimage img').getAttribute('src');
+
+                // Create an object with product details
+                const productDetails = {
+                    productid: productId,
+                    productname: productName,
+                    productprice: productPrice,
+                    productcount: productCount,
+                    productpic: productPic,
+                };
+
+                // Send product details to the Node.js server
+                fetch('/order', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(productDetails),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Order response:', data);
+                    alert(data.message);
+                })
+                .catch(error => console.error('Error sending order:', error));
+            }
+        });
+
+});
+
+  </script>
+</html>

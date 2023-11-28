@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/stylesa.css">
+  <title>Login and Signup</title>
+</head>
+<body>
+  <div class="container">
+    <div class="form-container">
+      <form id="loginForm" class="form active-form" action="admin/login" method="post">
+        <h2>Admin Login</h2>
+        <div class="input-group">
+          <label for="loginUsername">Username:</label>
+          <input type="text" id="loginUsername" name="loginUsername" required>
+        </div>
+        <div class="input-group">
+          <label for="loginPassword">Password:</label>
+          <input type="password" id="loginPassword" name="loginPassword" required>
+        </div>
+        <button type="submit">Login</button>
+        <p class="toggle-form">Don't have an account? <a href="#" onclick="toggleForm('signupForm')">Sign up</a></p>
+      </form>
+
+      <form id="signupForm" class="form" action="admin/signup" method="post">
+        <h2>Admin Signup</h2>
+        <div class="input-group">
+          <label for="signupUsername">Username:</label>
+          <input type="text" id="signupUsername" name="signupUsername" required>
+        </div>
+        <div class="input-group">
+          <label for="signupPassword">Password:</label>
+          <input type="password" id="signupPassword" name="signupPassword" required>
+        </div>
+        <button type="submit">Signup</button>
+        <p class="toggle-form">Already have an account? <a href="#" onclick="toggleForm('loginForm')">Login</a></p>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
