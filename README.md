@@ -19,3 +19,7 @@ Mongodb Database- For fast and efficient accessing and storing of data
 ->Mongoose
 ->dotenv
 ->path
+
+# To use the application
+visit http://localhost:3000 to use as a User
+visit http://localhost:3000/admin to use as Admin
